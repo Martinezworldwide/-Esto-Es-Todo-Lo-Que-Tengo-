@@ -52,17 +52,30 @@ document.addEventListener('DOMContentLoaded', () => {
       if (audioContext.state === 'suspended') {
         await audioContext.resume();
       }
+      
       if (audio.paused) {
-        await audio.play();
-        playButton.innerHTML = '⏸ PAUSE';
-        animate();
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              playButton.innerHTML = '⏸ PAUSE';
+              animate();
+            })
+            .catch(error => {
+              console.error('Error playing audio:', error);
+              playButton.innerHTML = '▶ CLICK TO PLAY';
+              // Show a more user-friendly message
+              alert('Please click the play button again to start the audio. This is required by your browser for security reasons.');
+            });
+        }
       } else {
         audio.pause();
         playButton.innerHTML = '▶ PLAY';
       }
     } catch (error) {
-      console.error('Error playing audio:', error);
-      playButton.innerHTML = '❌ ERROR';
+      console.error('Error with audio context:', error);
+      playButton.innerHTML = '▶ CLICK TO PLAY';
+      alert('Please click the play button again to start the audio. This is required by your browser for security reasons.');
     }
   });
 
