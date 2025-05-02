@@ -6,11 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const playButton = document.getElementById('play-button');
   const visualizer = document.getElementById('visualizer');
   const currentTime = document.getElementById('current-time');
+  const metrics = document.querySelectorAll('.metric');
+  const statusItems = document.querySelectorAll('.status-item');
 
-  // Update timestamp
+  // Update timestamp with glitch effect
   function updateTime() {
     const now = new Date();
-    currentTime.textContent = now.toLocaleTimeString();
+    const timeStr = now.toLocaleTimeString();
+    currentTime.textContent = timeStr;
+    
+    // Random glitch effect
+    if (Math.random() < 0.1) {
+      currentTime.style.textShadow = '0 0 10px var(--primary-color)';
+      setTimeout(() => {
+        currentTime.style.textShadow = '0 0 5px var(--secondary-color)';
+      }, 100);
+    }
   }
   updateTime();
   setInterval(updateTime, 1000);
@@ -41,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dataArray = new Uint8Array(analyser.frequencyBinCount);
   }
 
-  // Visualizer animation
+  // Visualizer animation with enhanced effects
   function animate() {
     animationId = requestAnimationFrame(animate);
     
@@ -54,10 +65,39 @@ document.addEventListener('DOMContentLoaded', () => {
       const value = dataArray[index % dataArray.length] / 255;
       const height = value * 100;
       bar.style.height = `${height}%`;
+      
+      // Add color variation based on frequency
+      const hue = (index / bars.length) * 360;
+      bar.style.background = `linear-gradient(to top, 
+        hsl(${hue}, 100%, 50%), 
+        hsl(${(hue + 60) % 360}, 100%, 50%)
+      )`;
     });
   }
 
-  // Play button handler
+  // Animate metrics with metal energy effect
+  function updateMetrics() {
+    metrics.forEach(metric => {
+      const progress = metric.querySelector('.progress');
+      const value = metric.querySelector('.value');
+      const currentWidth = parseInt(progress.style.width);
+      const newWidth = Math.min(100, Math.max(0, currentWidth + (Math.random() * 2 - 1)));
+      
+      progress.style.width = `${newWidth}%`;
+      value.textContent = `${Math.round(newWidth)}%`;
+      
+      // Add glow effect on significant changes
+      if (Math.abs(newWidth - currentWidth) > 5) {
+        value.style.textShadow = '0 0 10px var(--secondary-color)';
+        setTimeout(() => {
+          value.style.textShadow = '0 0 5px var(--secondary-color)';
+        }, 200);
+      }
+    });
+  }
+  setInterval(updateMetrics, 1000);
+
+  // Play button handler with enhanced effects
   playButton.addEventListener('click', async () => {
     try {
       if (audio.paused) {
@@ -70,16 +110,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         await audio.play();
-        playButton.textContent = 'Pause Audio';
+        playButton.textContent = '⏸ PAUSE AUDIO';
+        playButton.style.boxShadow = '0 0 20px var(--primary-color)';
         animate();
+        
+        // Update status indicators
+        statusItems.forEach(item => {
+          const status = item.querySelector('.status');
+          status.style.animation = 'glitch 0.3s infinite';
+          setTimeout(() => {
+            status.style.animation = '';
+          }, 1000);
+        });
       } else {
         audio.pause();
-        playButton.textContent = 'Play Audio';
+        playButton.textContent = '▶ PLAY AUDIO';
+        playButton.style.boxShadow = 'var(--neon-glow)';
         cancelAnimationFrame(animationId);
       }
     } catch (error) {
       console.error('Audio playback error:', error);
-      playButton.textContent = 'Error - Click to Retry';
+      playButton.textContent = '⚠ TRY AGAIN';
+      playButton.style.boxShadow = '0 0 20px #ff0000';
     }
   });
 

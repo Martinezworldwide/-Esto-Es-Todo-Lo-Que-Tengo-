@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#2c3e50">
-  <meta name="description" content="¡Esto Es Todo Lo Que Tengo! - Professional HUD Interface">
+  <meta name="theme-color" content="#ff3c3c">
+  <meta name="description" content="¡Esto Es Todo Lo Que Tengo! - Heavy Metal HUD Interface">
   <title>¡Esto Es Todo Lo Que Tengo!</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="hud">
     <header class="hud-header">
-      <h1>¡ESTO ES TODO LO QUE TENGO!</h1>
-      <div class="timestamp">Last Updated: <span id="current-time"></span></div>
+      <h1 class="hud-title" data-text="¡ESTO ES TODO LO QUE TENGO!">¡ESTO ES TODO LO QUE TENGO!</h1>
+      <div class="timestamp">SYSTEM TIME: <span id="current-time"></span></div>
     </header>
 
     <main class="hud-content">
       <section class="metrics-panel">
         <div class="metric">
-          <h3>Audio Quality</h3>
+          <h3>SONIC FORGE</h3>
           <div class="progress-bar">
             <div class="progress" style="width: 95%"></div>
           </div>
@@ -29,7 +29,7 @@
         </div>
 
         <div class="metric">
-          <h3>System Performance</h3>
+          <h3>METAL ENERGY</h3>
           <div class="progress-bar">
             <div class="progress" style="width: 88%"></div>
           </div>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="metric">
-          <h3>Resource Usage</h3>
+          <h3>SOUL OUTPUT</h3>
           <div class="progress-bar">
             <div class="progress" style="width: 72%"></div>
           </div>
@@ -47,23 +47,61 @@
 
       <section class="status-panel">
         <div class="status-item">
-          <span class="label">Audio Status:</span>
-          <span class="status active">Active</span>
+          <span class="label">AUDIO STATUS:</span>
+          <span class="status active">ACTIVE</span>
         </div>
         <div class="status-item">
-          <span class="label">Visualizer:</span>
-          <span class="status active">Running</span>
+          <span class="label">VISUALIZER:</span>
+          <span class="status active">ONLINE</span>
         </div>
         <div class="status-item">
-          <span class="label">System Health:</span>
-          <span class="status good">Optimal</span>
+          <span class="label">POWER LEVEL:</span>
+          <span class="status good">MAXIMUM</span>
+        </div>
+      </section>
+
+      <section class="artistic-panel">
+        <div class="artistic-element">
+          <div class="energy-core">
+            <div class="core-pulse"></div>
+            <div class="core-glow"></div>
+          </div>
+          <h3>SPIRIT CORE</h3>
+          <p class="core-status">SYNCING WITH MUSIC</p>
+        </div>
+
+        <div class="artistic-element">
+          <div class="frequency-display">
+            <div class="frequency-bars"></div>
+            <div class="frequency-wave"></div>
+          </div>
+          <h3>FREQUENCY MATRIX</h3>
+          <p class="frequency-status">ANALYZING WAVEFORMS</p>
+        </div>
+
+        <div class="artistic-element">
+          <div class="metal-glyphs">
+            <div class="glyph">⚡</div>
+            <div class="glyph">🔥</div>
+            <div class="glyph">💀</div>
+          </div>
+          <h3>METAL GLYPHS</h3>
+          <p class="glyph-status">ACTIVATED</p>
+        </div>
+      </section>
+
+      <section class="lyrics-panel">
+        <h3>LYRICS SYNC</h3>
+        <div class="lyrics-display">
+          <p class="current-line">"God gave me music / code / soul"</p>
+          <div class="lyrics-progress"></div>
         </div>
       </section>
     </main>
 
     <footer class="hud-footer">
       <div class="visualizer" id="visualizer"></div>
-      <button id="play-button" class="play-button">Play Audio</button>
+      <button id="play-button" class="play-button">▶ PLAY AUDIO</button>
     </footer>
   </div>
 
