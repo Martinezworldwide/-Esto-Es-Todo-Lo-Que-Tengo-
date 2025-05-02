@@ -3,78 +3,92 @@ console.log("¡Esto Es Todo Lo Que Tengo! HUD loaded.");
 
 document.addEventListener('DOMContentLoaded', () => {
   const audio = document.getElementById('track');
-  const visualizer = document.createElement('div');
-  visualizer.className = 'visualizer';
-  document.body.appendChild(visualizer);
+  const playButton = document.getElementById('play-button');
+  const visualizer = document.getElementById('visualizer');
+  const currentTime = document.getElementById('current-time');
 
-  // Create play button
-  const playButton = document.createElement('button');
-  playButton.className = 'play-button';
-  playButton.innerHTML = '▶ PLAY';
-  document.body.appendChild(playButton);
-
-  // Create audio context and analyzer
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const analyser = audioContext.createAnalyser();
-  const source = audioContext.createMediaElementSource(audio);
-  
-  source.connect(analyser);
-  analyser.connect(audioContext.destination);
-  
-  analyser.fftSize = 256;
-  const bufferLength = analyser.frequencyBinCount;
-  const dataArray = new Uint8Array(bufferLength);
+  // Update timestamp
+  function updateTime() {
+    const now = new Date();
+    currentTime.textContent = now.toLocaleTimeString();
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
 
   // Create visualizer bars
-  for (let i = 0; i < bufferLength; i++) {
+  const barCount = 50;
+  for (let i = 0; i < barCount; i++) {
     const bar = document.createElement('div');
     bar.className = 'visualizer-bar';
     visualizer.appendChild(bar);
   }
 
-  const bars = document.querySelectorAll('.visualizer-bar');
+  // Audio context setup
+  let audioContext;
+  let analyser;
+  let dataArray;
+  let animationId;
 
-  // Animation loop
+  function setupAudioContext() {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+    
+    const source = audioContext.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+    
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+  }
+
+  // Visualizer animation
   function animate() {
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
+    
+    if (!analyser) return;
+    
     analyser.getByteFrequencyData(dataArray);
-
-    bars.forEach((bar, i) => {
-      const height = (dataArray[i] / 255) * 100;
+    const bars = document.querySelectorAll('.visualizer-bar');
+    
+    bars.forEach((bar, index) => {
+      const value = dataArray[index % dataArray.length] / 255;
+      const height = value * 100;
       bar.style.height = `${height}%`;
-      bar.style.opacity = height / 100;
     });
   }
 
-  // Play button click handler
+  // Play button handler
   playButton.addEventListener('click', async () => {
     try {
-      // Resume audio context if suspended
-      if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-      }
-
-      // Toggle play/pause
       if (audio.paused) {
+        if (!audioContext) {
+          setupAudioContext();
+        }
+        
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+        
         await audio.play();
-        playButton.innerHTML = '⏸ PAUSE';
+        playButton.textContent = 'Pause Audio';
         animate();
       } else {
         audio.pause();
-        playButton.innerHTML = '▶ PLAY';
+        playButton.textContent = 'Play Audio';
+        cancelAnimationFrame(animationId);
       }
     } catch (error) {
-      console.error('Audio error:', error);
-      // If there's an error, just try to play again
-      try {
-        await audio.play();
-        playButton.innerHTML = '⏸ PAUSE';
-        animate();
-      } catch (e) {
-        console.error('Second attempt failed:', e);
-        playButton.innerHTML = '▶ TRY AGAIN';
-      }
+      console.error('Audio playback error:', error);
+      playButton.textContent = 'Error - Click to Retry';
     }
+  });
+
+  // Clean up on page unload
+  window.addEventListener('beforeunload', () => {
+    if (audioContext) {
+      audioContext.close();
+    }
+    cancelAnimationFrame(animationId);
   });
 
   // Interactive elements
