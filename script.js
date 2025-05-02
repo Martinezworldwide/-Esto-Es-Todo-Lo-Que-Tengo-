@@ -7,6 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   visualizer.className = 'visualizer';
   document.body.appendChild(visualizer);
 
+  // Create play button
+  const playButton = document.createElement('button');
+  playButton.className = 'play-button';
+  playButton.innerHTML = '▶ PLAY';
+  document.body.appendChild(playButton);
+
   // Create audio context and analyzer
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
   const analyser = audioContext.createAnalyser();
@@ -40,7 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  animate();
+  // Play button click handler
+  playButton.addEventListener('click', async () => {
+    try {
+      if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+      }
+      if (audio.paused) {
+        await audio.play();
+        playButton.innerHTML = '⏸ PAUSE';
+        animate();
+      } else {
+        audio.pause();
+        playButton.innerHTML = '▶ PLAY';
+      }
+    } catch (error) {
+      console.error('Error playing audio:', error);
+      playButton.innerHTML = '❌ ERROR';
+    }
+  });
 
   // Interactive elements
   const hudSections = document.querySelectorAll('.hud-section');
@@ -64,10 +88,5 @@ document.addEventListener('DOMContentLoaded', () => {
     section.addEventListener('mouseleave', () => {
       section.style.animation = '';
     });
-  });
-
-  // Ensure audio plays
-  audio.play().catch(error => {
-    console.log('Audio playback failed:', error);
   });
 });
