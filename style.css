@@ -5,6 +5,9 @@
   --secondary-color: #00ff9d;
   --glow-color: rgba(255, 60, 60, 0.5);
   --bg-color: rgba(0, 0, 0, 0.8);
+  --neon-glow: 0 0 10px var(--primary-color),
+               0 0 20px var(--primary-color),
+               0 0 30px var(--primary-color);
 }
 
 body {
@@ -16,6 +19,7 @@ body {
   padding: 0;
   min-height: 100vh;
   overflow: hidden;
+  perspective: 1000px;
 }
 
 #hud {
@@ -24,9 +28,11 @@ body {
   background: var(--bg-color);
   backdrop-filter: blur(5px);
   border: 1px solid var(--primary-color);
-  box-shadow: 0 0 20px var(--glow-color);
+  box-shadow: var(--neon-glow);
   position: relative;
   overflow: hidden;
+  transform-style: preserve-3d;
+  animation: float 6s ease-in-out infinite;
 }
 
 #hud::before {
@@ -40,18 +46,68 @@ body {
   animation: scanline 2s linear infinite;
 }
 
+#hud::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
 .hud-title {
   font-size: 2.5em;
   margin-bottom: 40px;
   color: var(--primary-color);
   letter-spacing: 4px;
-  text-shadow: 0 0 10px var(--glow-color);
-  animation: glitch 2s infinite;
+  text-shadow: var(--neon-glow);
+  animation: glitch 2s infinite, float 3s ease-in-out infinite;
+  position: relative;
+}
+
+.hud-title::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: 2px 0 var(--secondary-color);
+  top: 0;
+  color: var(--primary-color);
+  background: var(--bg-color);
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+.hud-title::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  text-shadow: -2px 0 var(--secondary-color);
+  top: 0;
+  color: var(--primary-color);
+  background: var(--bg-color);
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim-2 3s infinite linear alternate-reverse;
 }
 
 .hud-section {
   margin-bottom: 20px;
   position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.hud-section:hover {
+  transform: translateZ(20px);
 }
 
 label {
@@ -61,6 +117,7 @@ label {
   margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-shadow: 0 0 5px var(--secondary-color);
 }
 
 .bar {
@@ -72,6 +129,7 @@ label {
   border-radius: 5px;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 0 10px rgba(255, 60, 60, 0.3);
 }
 
 .bar::after {
@@ -90,6 +148,7 @@ label {
   background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
   position: relative;
   transition: width 0.5s ease;
+  box-shadow: 0 0 10px rgba(255, 60, 60, 0.5);
 }
 
 .fill::after {
@@ -108,12 +167,50 @@ label {
   font-size: 20px;
   color: var(--primary-color);
   position: relative;
+  transform-style: preserve-3d;
 }
 
 .skull-glow {
   font-size: 60px;
   animation: pulse 1.5s infinite, float 3s ease-in-out infinite;
-  text-shadow: 0 0 20px var(--glow-color);
+  text-shadow: var(--neon-glow);
+  position: relative;
+}
+
+.core-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+  animation: pulse 2s infinite;
+  opacity: 0.5;
+}
+
+.system-info {
+  margin-top: 30px;
+  padding: 15px;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(255, 60, 60, 0.3);
+}
+
+.info-line {
+  margin: 10px 0;
+  font-size: 14px;
+  color: var(--secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.status {
+  color: var(--primary-color);
+  text-shadow: 0 0 5px var(--primary-color);
+  animation: blink 1s infinite;
 }
 
 .footer-verse {
@@ -122,16 +219,81 @@ label {
   margin-top: 40px;
   opacity: 0.8;
   text-shadow: 0 0 5px var(--glow-color);
+  position: relative;
+}
+
+.footer-verse::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+}
+
+@keyframes noise-anim {
+  0% { clip: rect(29px, 9999px, 85px, 0); }
+  5% { clip: rect(73px, 9999px, 65px, 0); }
+  10% { clip: rect(52px, 9999px, 26px, 0); }
+  15% { clip: rect(92px, 9999px, 98px, 0); }
+  20% { clip: rect(23px, 9999px, 15px, 0); }
+  25% { clip: rect(52px, 9999px, 35px, 0); }
+  30% { clip: rect(43px, 9999px, 96px, 0); }
+  35% { clip: rect(82px, 9999px, 64px, 0); }
+  40% { clip: rect(88px, 9999px, 45px, 0); }
+  45% { clip: rect(91px, 9999px, 23px, 0); }
+  50% { clip: rect(14px, 9999px, 55px, 0); }
+  55% { clip: rect(15px, 9999px, 66px, 0); }
+  60% { clip: rect(73px, 9999px, 6px, 0); }
+  65% { clip: rect(43px, 9999px, 96px, 0); }
+  70% { clip: rect(82px, 9999px, 64px, 0); }
+  75% { clip: rect(88px, 9999px, 45px, 0); }
+  80% { clip: rect(91px, 9999px, 23px, 0); }
+  85% { clip: rect(14px, 9999px, 55px, 0); }
+  90% { clip: rect(15px, 9999px, 66px, 0); }
+  95% { clip: rect(73px, 9999px, 6px, 0); }
+  100% { clip: rect(43px, 9999px, 96px, 0); }
+}
+
+@keyframes noise-anim-2 {
+  0% { clip: rect(54px, 9999px, 99px, 0); }
+  5% { clip: rect(52px, 9999px, 1px, 0); }
+  10% { clip: rect(39px, 9999px, 99px, 0); }
+  15% { clip: rect(73px, 9999px, 27px, 0); }
+  20% { clip: rect(45px, 9999px, 69px, 0); }
+  25% { clip: rect(73px, 9999px, 8px, 0); }
+  30% { clip: rect(14px, 9999px, 47px, 0); }
+  35% { clip: rect(52px, 9999px, 23px, 0); }
+  40% { clip: rect(54px, 9999px, 73px, 0); }
+  45% { clip: rect(69px, 9999px, 49px, 0); }
+  50% { clip: rect(92px, 9999px, 99px, 0); }
+  55% { clip: rect(13px, 9999px, 85px, 0); }
+  60% { clip: rect(23px, 9999px, 36px, 0); }
+  65% { clip: rect(85px, 9999px, 47px, 0); }
+  70% { clip: rect(34px, 9999px, 25px, 0); }
+  75% { clip: rect(86px, 9999px, 58px, 0); }
+  80% { clip: rect(74px, 9999px, 99px, 0); }
+  85% { clip: rect(35px, 9999px, 87px, 0); }
+  90% { clip: rect(54px, 9999px, 84px, 0); }
+  95% { clip: rect(68px, 9999px, 52px, 0); }
+  100% { clip: rect(95px, 9999px, 73px, 0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotateX(0deg); }
+  50% { transform: translateY(-10px) rotateX(5deg); }
 }
 
 @keyframes pulse {
   0%, 100% { opacity: 0.6; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.1); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
 }
 
 @keyframes shine {
@@ -164,6 +326,8 @@ label {
   justify-content: center;
   align-items: center;
   gap: 2px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  backdrop-filter: blur(5px);
 }
 
 .visualizer-bar {
@@ -171,6 +335,7 @@ label {
   background: var(--primary-color);
   border-radius: 2px;
   transition: height 0.1s ease;
+  box-shadow: 0 0 10px var(--primary-color);
 }
 
 .play-button {
@@ -189,19 +354,20 @@ label {
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px var(--glow-color);
+  box-shadow: var(--neon-glow);
   z-index: 1000;
+  transform-style: preserve-3d;
 }
 
 .play-button:hover {
   background: var(--primary-color);
   color: #000;
-  transform: scale(1.05);
+  transform: scale(1.05) translateZ(20px);
   box-shadow: 0 0 20px var(--glow-color);
 }
 
 .play-button:active {
-  transform: scale(0.95);
+  transform: scale(0.95) translateZ(10px);
 }
 
 .play-button::after {
