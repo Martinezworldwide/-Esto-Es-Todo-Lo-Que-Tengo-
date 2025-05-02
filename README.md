@@ -2,39 +2,51 @@
 
 A high-tech heavy metal HUD interface with dynamic artistic elements and vertical flow.
 
-## 🎨 Artistic Flow
+## 🎨 Artistic Flow & Updates
 
-The interface features a natural vertical progression of artistic elements:
+The interface features a natural vertical progression of artistic elements, with planned updates:
 
-1. **Title & System Status**
+1. **Audio Control Hub** (TOP PRIORITY)
+   - Play/Pause button with dynamic effects
+   - Volume control with visual feedback
+   - Audio waveform preview
+   - Playback speed adjustment
+
+2. **Title & System Status**
    - Glitch-effect title with cyberpunk aesthetics
    - Real-time system timestamp
    - Power level indicators
+   - Planned: Animated title transitions
 
-2. **Core Metrics**
+3. **Core Metrics**
    - SONIC FORGE: Audio quality visualization
    - METAL ENERGY: System performance metrics
    - SOUL OUTPUT: Resource utilization
+   - Planned: Interactive metric animations
 
-3. **Status Matrix**
+4. **Status Matrix**
    - Audio status monitoring
    - Visualizer synchronization
    - Power level tracking
+   - Planned: Status effect transitions
 
-4. **Artistic Elements**
+5. **Artistic Elements**
    - **SPIRIT CORE**: Pulsing energy visualization
    - **FREQUENCY MATRIX**: Dynamic waveform analysis
    - **METAL GLYPHS**: Animated symbolic elements
+   - Planned: Enhanced particle effects
 
-5. **Lyrics Integration**
+6. **Lyrics Integration**
    - Synchronized lyrics display
    - Progress tracking
    - Dynamic text effects
+   - Planned: Karaoke-style highlighting
 
-6. **Audio Visualizer**
+7. **Audio Visualizer**
    - Real-time frequency analysis
    - Dynamic bar visualization
    - Interactive playback controls
+   - Planned: 3D visualization effects
 
 ## 🚀 Features
 
@@ -78,24 +90,22 @@ The interface can be customized through CSS variables:
 }
 ```
 
-## 🔄 Updates
+## 🔄 Update Schedule
 
-The interface receives regular updates to enhance the artistic flow:
+1. **Phase 1: Audio Control Hub** (Current)
+   - Implement top-positioned audio controls
+   - Add dynamic visual feedback
+   - Enhance playback experience
 
-1. **Visual Enhancements**
-   - New animation effects
-   - Improved transitions
-   - Enhanced visual feedback
+2. **Phase 2: Enhanced Visuals**
+   - Upgrade title animations
+   - Improve metric displays
+   - Add particle effects
 
-2. **Performance Optimizations**
-   - Smoother animations
-   - Better resource management
-   - Improved responsiveness
-
-3. **New Features**
-   - Additional artistic elements
-   - Enhanced audio visualization
-   - New interactive components
+3. **Phase 3: Advanced Features**
+   - Implement 3D visualizer
+   - Add karaoke-style lyrics
+   - Enhance status effects
 
 ## 📝 License
 
@@ -104,3 +114,5 @@ This project is open source and available under the MIT License.
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+https://martinezworldwide.github.io/-Esto-Es-Todo-Lo-Que-Tengo-/

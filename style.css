@@ -455,3 +455,647 @@ body {
     padding: 20px;
   }
 }
+
+/* Audio Control Hub Styles */
+.audio-control-hub {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: var(--neon-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.audio-control-hub::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+  animation: scanline 2s linear infinite;
+}
+
+.control-container {
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.audio-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#play-button {
+  font-size: 1.2em;
+  padding: 12px 20px;
+  background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(50,50,50,0.8));
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px var(--primary-color);
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+#play-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--primary-color);
+}
+
+#play-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+  transform: rotate(30deg);
+  transition: transform 0.3s;
+  opacity: 0;
+}
+
+#play-button:hover::after {
+  opacity: 1;
+  transform: rotate(30deg) translate(50%, 50%);
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.volume-icon {
+  color: var(--secondary-color);
+  font-size: 1.2em;
+  animation: pulse 2s infinite;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.5);
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  height: 8px;
+  left: 0;
+  width: 80%;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 4px;
+}
+
+.volume-value {
+  color: var(--secondary-color);
+  font-size: 0.9em;
+  min-width: 40px;
+  text-shadow: 0 0 5px var(--secondary-color);
+}
+
+.playback-speed {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.speed-label {
+  color: var(--secondary-color);
+  font-size: 0.9em;
+  text-shadow: 0 0 5px var(--secondary-color);
+}
+
+.speed-btn {
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.speed-btn:hover {
+  background: rgba(255, 60, 60, 0.2);
+}
+
+.speed-btn.active {
+  background: var(--primary-color);
+  color: #000;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.waveform-preview {
+  height: 100px;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.waveform-container {
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.waveform-bar {
+  background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+  height: 100%;
+  flex: 1;
+  max-width: 3px;
+  border-radius: 2px;
+  transform-origin: bottom;
+  animation: waveform-animation 0.2s infinite;
+}
+
+.audio-time {
+  font-size: 0.8em;
+  color: var(--secondary-color);
+  text-align: center;
+  margin-top: 5px;
+  text-shadow: 0 0 5px var(--secondary-color);
+}
+
+/* Animated Character Styles */
+.animated-character {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.metal-character {
+  position: relative;
+  width: 80px;
+  height: 100px;
+  transform-style: preserve-3d;
+  animation: character-idle 3s infinite;
+}
+
+.head {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  background: var(--primary-color);
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.body {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.arm {
+  position: absolute;
+  width: 10px;
+  height: 40px;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.arm.left {
+  top: 35px;
+  left: 5px;
+  transform-origin: top center;
+  animation: arm-movement-left 2s infinite;
+}
+
+.arm.right {
+  top: 35px;
+  right: 5px;
+  transform-origin: top center;
+  animation: arm-movement-right 2s infinite;
+}
+
+/* Character Animations */
+@keyframes character-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes arm-movement-left {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(-25deg); }
+}
+
+@keyframes arm-movement-right {
+  0%, 100% { transform: rotate(5deg); }
+  50% { transform: rotate(25deg); }
+}
+
+@keyframes waveform-animation {
+  0%, 100% { transform: scaleY(var(--scale, 0.3)); }
+  50% { transform: scaleY(calc(var(--scale, 0.3) * 1.2)); }
+}
+
+/* Artistic Moving Characters and Elements */
+.artistic-elements-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Metal Warrior Character */
+.moving-character-1 {
+  position: absolute;
+  bottom: 50px;
+  left: -100px;
+  animation: walk-across 30s linear infinite;
+}
+
+.metal-warrior {
+  width: 80px;
+  height: 150px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.warrior-head {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35px;
+  height: 35px;
+  background: var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--primary-color);
+}
+
+.warrior-body {
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--primary-color);
+}
+
+.warrior-arm {
+  position: absolute;
+  width: 12px;
+  height: 45px;
+  background: var(--secondary-color);
+  border-radius: 6px;
+  box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.warrior-arm.arm-left {
+  top: 40px;
+  left: 0;
+  transform-origin: top center;
+  animation: warrior-arm-left 1s infinite;
+}
+
+.warrior-arm.arm-right {
+  top: 40px;
+  right: 0;
+  transform-origin: top center;
+  animation: warrior-arm-right 1s infinite;
+}
+
+.warrior-leg {
+  position: absolute;
+  width: 15px;
+  height: 50px;
+  background: var(--primary-color);
+  border-radius: 6px;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.warrior-leg.leg-left {
+  top: 95px;
+  left: 10px;
+  transform-origin: top center;
+  animation: warrior-leg-left 1s infinite;
+}
+
+.warrior-leg.leg-right {
+  top: 95px;
+  right: 10px;
+  transform-origin: top center;
+  animation: warrior-leg-right 1s infinite;
+}
+
+.warrior-weapon {
+  position: absolute;
+  top: 45px;
+  right: -30px;
+  width: 50px;
+  height: 10px;
+  background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+  border-radius: 2px;
+  box-shadow: 0 0 15px var(--primary-color);
+  transform-origin: left center;
+  animation: weapon-swing 2s infinite;
+}
+
+/* Floating Music Symbols */
+.floating-symbols {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.symbol {
+  position: absolute;
+  color: var(--secondary-color);
+  font-size: 3em;
+  text-shadow: 0 0 10px var(--secondary-color);
+  opacity: 0.7;
+  animation: float-symbol 15s linear infinite;
+}
+
+.symbol-1 {
+  top: 10%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.symbol-2 {
+  top: 30%;
+  left: 80%;
+  animation-delay: 3s;
+}
+
+.symbol-3 {
+  top: 70%;
+  left: 30%;
+  animation-delay: 6s;
+}
+
+.symbol-4 {
+  top: 15%;
+  left: 60%;
+  animation-delay: 9s;
+}
+
+.symbol-5 {
+  top: 60%;
+  left: 10%;
+  animation-delay: 12s;
+}
+
+/* Cyber Drummer */
+.moving-character-2 {
+  position: absolute;
+  bottom: 100px;
+  right: -100px;
+  animation: walk-across-reverse 40s linear infinite;
+}
+
+.cyber-drummer {
+  width: 120px;
+  height: 150px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.drummer-head {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35px;
+  height: 35px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--secondary-color);
+}
+
+.drummer-body {
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--secondary-color), var(--primary-color));
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--secondary-color);
+}
+
+.drummer-arm {
+  position: absolute;
+  width: 12px;
+  height: 45px;
+  background: var(--primary-color);
+  border-radius: 6px;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.drummer-arm.arm-left {
+  top: 40px;
+  left: 10px;
+  transform-origin: top center;
+  animation: drummer-arm-left 0.5s infinite;
+}
+
+.drummer-arm.arm-right {
+  top: 40px;
+  right: 10px;
+  transform-origin: top center;
+  animation: drummer-arm-right 0.5s infinite;
+}
+
+.drum-kit {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 50px;
+}
+
+.drum {
+  position: absolute;
+  background: var(--primary-color);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.drum-1 {
+  width: 30px;
+  height: 20px;
+  bottom: 0;
+  left: 10px;
+}
+
+.drum-2 {
+  width: 35px;
+  height: 25px;
+  bottom: 0;
+  right: 10px;
+}
+
+.cymbal {
+  position: absolute;
+  width: 40px;
+  height: 5px;
+  background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+  border-radius: 2px;
+  box-shadow: 0 0 15px var(--secondary-color);
+}
+
+.cymbal-1 {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: cymbal-shake 0.5s infinite;
+}
+
+.glitch-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 0%, rgba(255, 60, 60, 0.03) 50%, transparent 100%);
+  animation: glitch-background 10s infinite;
+}
+
+/* Animations for Artistic Elements */
+@keyframes walk-across {
+  0% { left: -100px; }
+  100% { left: calc(100% + 100px); }
+}
+
+@keyframes walk-across-reverse {
+  0% { right: -100px; }
+  100% { right: calc(100% + 100px); }
+}
+
+@keyframes warrior-arm-left {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(-30deg); }
+}
+
+@keyframes warrior-arm-right {
+  0%, 100% { transform: rotate(10deg); }
+  50% { transform: rotate(30deg); }
+}
+
+@keyframes warrior-leg-left {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(20deg); }
+}
+
+@keyframes warrior-leg-right {
+  0%, 100% { transform: rotate(20deg); }
+  50% { transform: rotate(-5deg); }
+}
+
+@keyframes weapon-swing {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-30deg); }
+}
+
+@keyframes float-symbol {
+  0% { 
+    transform: translateY(0) rotate(0deg); 
+    opacity: 0;
+  }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.7; }
+  100% { 
+    transform: translateY(-100vh) rotate(360deg); 
+    opacity: 0;
+  }
+}
+
+@keyframes drummer-arm-left {
+  0%, 100% { transform: rotate(20deg); }
+  50% { transform: rotate(60deg); }
+}
+
+@keyframes drummer-arm-right {
+  0%, 100% { transform: rotate(-20deg); }
+  50% { transform: rotate(-60deg); }
+}
+
+@keyframes cymbal-shake {
+  0%, 100% { transform: translateX(-50%) rotate(0deg); }
+  25% { transform: translateX(-50%) rotate(2deg); }
+  75% { transform: translateX(-50%) rotate(-2deg); }
+}
+
+@keyframes glitch-background {
+  0%, 100% { opacity: 0; }
+  5%, 10% { opacity: 1; }
+  15% { opacity: 0; }
+  85% { opacity: 0; }
+  90%, 95% { opacity: 1; }
+}
