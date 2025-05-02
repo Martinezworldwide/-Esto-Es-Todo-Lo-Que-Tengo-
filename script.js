@@ -49,33 +49,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Play button click handler
   playButton.addEventListener('click', async () => {
     try {
+      // Resume audio context if suspended
       if (audioContext.state === 'suspended') {
         await audioContext.resume();
       }
-      
+
+      // Toggle play/pause
       if (audio.paused) {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              playButton.innerHTML = '⏸ PAUSE';
-              animate();
-            })
-            .catch(error => {
-              console.error('Error playing audio:', error);
-              playButton.innerHTML = '▶ CLICK TO PLAY';
-              // Show a more user-friendly message
-              alert('Please click the play button again to start the audio. This is required by your browser for security reasons.');
-            });
-        }
+        await audio.play();
+        playButton.innerHTML = '⏸ PAUSE';
+        animate();
       } else {
         audio.pause();
         playButton.innerHTML = '▶ PLAY';
       }
     } catch (error) {
-      console.error('Error with audio context:', error);
-      playButton.innerHTML = '▶ CLICK TO PLAY';
-      alert('Please click the play button again to start the audio. This is required by your browser for security reasons.');
+      console.error('Audio error:', error);
+      // If there's an error, just try to play again
+      try {
+        await audio.play();
+        playButton.innerHTML = '⏸ PAUSE';
+        animate();
+      } catch (e) {
+        console.error('Second attempt failed:', e);
+        playButton.innerHTML = '▶ TRY AGAIN';
+      }
     }
   });
 
