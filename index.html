@@ -3,31 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ff3c3c">
+  <meta name="description" content="¡Esto Es Todo Lo Que Tengo! - Advanced HUD Interface">
   <title>¡Esto Es Todo Lo Que Tengo!</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
   <div id="hud">
+    <div class="scanline"></div>
     <h1 class="hud-title">¡ESTO ES TODO LO QUE TENGO!</h1>
 
     <div class="hud-section">
       <label>SONIC FORGE</label>
       <div class="bar"><div class="fill" style="width: 70%"></div></div>
+      <div class="value">70%</div>
     </div>
 
     <div class="hud-section">
       <label>METAL ENERGY</label>
       <div class="bar"><div class="fill" style="width: 100%"></div></div>
+      <div class="value">100%</div>
     </div>
 
     <div class="hud-section">
       <label>SOUL OUTPUT</label>
       <div class="bar"><div class="fill" style="width: 90%"></div></div>
+      <div class="value">90%</div>
     </div>
 
     <div class="hud-core">
       <div class="skull-glow">🔥</div>
       <p>SPIRIT CORE</p>
+      <div class="core-pulse"></div>
+    </div>
+
+    <div class="system-info">
+      <div class="info-line">SYSTEM STATUS: <span class="status">OPERATIONAL</span></div>
+      <div class="info-line">AUDIO FEED: <span class="status">ACTIVE</span></div>
+      <div class="info-line">VISUALIZER: <span class="status">ONLINE</span></div>
     </div>
 
     <p class="footer-verse">"God gave me music / code / soul"</p>
@@ -35,11 +50,9 @@
 
   <script src="script.js"></script>
 
-<audio id="track" autoplay loop>
-  <source src="assets/esto-es-todo.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
-
-
+  <audio id="track" autoplay loop>
+    <source src="assets/esto-es-todo.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 </body>
 </html>
